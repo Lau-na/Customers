@@ -1,21 +1,33 @@
-import Navigation from "./components/Navigation";
-import { Routes, Route } from "react-router-dom";
+import * as React from 'react';
 
-import Home from "./components/Home";
-import Users from "./components/Users";
-
-
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './components/Home';
+import Users from './components/Users';
+import User from './components/User';
+import Layout from './components/Layout';
+import NoMatch from './components/NoMatch';
 const App = () => {
-  return (
-    <>
-      <h1>React Router</h1>
-      <Navigation />
+  const navigate = useNavigate();
+  const [users, setUsers] = React.useState([
+    { id: '1', fullName: 'Robin Wieruch' },
+    { id: '2', fullName: 'Sarah Finnley' },
+  ]);
+  const handleRemoveUser = (userId) => {
+    setUsers((state) => state.filter((user) => user.id !== userId));
+    navigate('/users');
+  };
 
-      <Routes>
-        <Route path="home" element={<Home />}/>
-        <Route path="users" element={<Users />} />
-      </Routes>
-    </>
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="home" element={<Home />} />
+        <Route path="users" element={<Users users={users} />}>
+          <Route path=":userId" element={<User onRemoveUser={handleRemoveUser} />} />
+        </Route>
+        <Route path="*" element={<NoMatch />} />
+      </Route>
+    </Routes>
   );
 };
 export default App;

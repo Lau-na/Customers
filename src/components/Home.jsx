@@ -1,8 +1,8 @@
 const Home = () => {
-    return (
-        <main style={{ padding: "1rem 0" }}>
-            <h2>Home</h2>
-        </main>
-    );
+  return (
+    <>
+      <h2>Home</h2>
+    </>
+  );
 };
 export default Home;
